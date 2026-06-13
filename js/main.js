@@ -63,31 +63,27 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // 实时服务器状态
+  // 实时服务器状态（每 3 分钟查询一次）
   var statusDot = document.querySelector('.status-dot');
   var statusValue = document.querySelector('.status-item:first-child .status-value');
   var pingEl = document.getElementById('pingDisplay');
   var playerEl = document.getElementById('playerCount');
+  var lastGood = null;
 
   function fetchStatus() {
-    fetch('https://api.mcsrvstat.us/3/modernmc.srmz.cn')
+    fetch('https://api.mcsrvstat.us/2/modernmc.srmz.cn')
       .then(function (res) { return res.json(); })
       .then(function (data) {
         if (data.online) {
+          lastGood = data;
           if (statusDot) {
             statusDot.style.background = '#4caf50';
             statusDot.style.boxShadow = '0 0 8px rgba(76, 175, 80, 0.5)';
           }
           if (statusValue) statusValue.textContent = '在线';
-
-          if (data.players && playerEl) {
+          if (pingEl) pingEl.textContent = (data.debug && data.debug.ping ? data.debug.ping : '--') + ' ms';
+          if (playerEl && data.players) {
             playerEl.textContent = data.players.online + ' / ' + data.players.max + ' 人';
-          }
-
-          if (data.debug && data.debug.ping && pingEl) {
-            pingEl.textContent = data.debug.ping + ' ms';
-          } else if (pingEl) {
-            pingEl.textContent = '-- ms';
           }
         } else {
           if (statusDot) {
@@ -100,6 +96,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       })
       .catch(function () {
+        if (lastGood) return;
         if (statusDot) {
           statusDot.style.background = '#ff9800';
           statusDot.style.boxShadow = '0 0 8px rgba(255, 152, 0, 0.5)';
@@ -109,5 +106,5 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   fetchStatus();
-  setInterval(fetchStatus, 60000);
+  setInterval(fetchStatus, 180000);
 });
