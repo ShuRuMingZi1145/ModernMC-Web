@@ -570,3 +570,25 @@ ul {
   font-size: 0.8rem;
   color: #5a5a72;
 }
+
+/* 浮动复制提示 */
+.float-toast {
+  position: fixed;
+  transform: translate(-50%, -100%);
+  background: #2a2a3e;
+  color: #d4d4dc;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s, transform 0.25s;
+  z-index: 999;
+  border: 1px solid #3a3a52;
+}
+
+.float-toast.show {
+  opacity: 1;
+  transform: translate(-50%, -120%);
+}

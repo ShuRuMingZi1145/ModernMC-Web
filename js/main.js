@@ -1,64 +1,67 @@
 document.addEventListener('DOMContentLoaded', function () {
-  // 复制 IP
-  var copyBtn = document.getElementById('copyBtn');
   var ipEl = document.getElementById('serverIp');
-  var toast = document.getElementById('copyToast');
   var ip = ipEl.textContent;
 
-  function copyIp() {
+  function copyIp(e) {
+    var btn = e.currentTarget;
+    doCopy(ip, function () {
+      showFloatingToast(btn, '✓ 已复制服务器地址');
+    });
+  }
+
+  function doCopy(text, cb) {
     if (navigator.clipboard) {
-      navigator.clipboard.writeText(ip).then(function () {
-        showToast();
-      }).catch(function () {
-        fallbackCopy();
+      navigator.clipboard.writeText(text).then(cb).catch(function () {
+        fallbackCopy(text, cb);
       });
     } else {
-      fallbackCopy();
+      fallbackCopy(text, cb);
     }
   }
 
-  function fallbackCopy() {
+  function fallbackCopy(text, cb) {
     var ta = document.createElement('textarea');
-    ta.value = ip;
+    ta.value = text;
     ta.style.position = 'fixed';
     ta.style.opacity = '0';
     document.body.appendChild(ta);
     ta.select();
     document.execCommand('copy');
     document.body.removeChild(ta);
-    showToast();
+    cb();
   }
 
-  function showToast() {
-    toast.classList.add('show');
+  function showFloatingToast(anchor, msg) {
+    var existing = document.querySelector('.float-toast');
+    if (existing) existing.remove();
+
+    var toast = document.createElement('div');
+    toast.className = 'float-toast';
+    toast.textContent = msg;
+
+    var rect = anchor.getBoundingClientRect();
+    toast.style.left = rect.left + rect.width / 2 + 'px';
+    toast.style.top = rect.top - 12 + 'px';
+
+    document.body.appendChild(toast);
+    requestAnimationFrame(function () {
+      toast.classList.add('show');
+    });
+
     setTimeout(function () {
       toast.classList.remove('show');
-    }, 1800);
+      setTimeout(function () { toast.remove(); }, 300);
+    }, 1600);
   }
 
-  if (copyBtn) {
-    copyBtn.addEventListener('click', copyIp);
-  }
+  document.getElementById('copyBtn').addEventListener('click', copyIp);
+  document.getElementById('copyIpBtn').addEventListener('click', copyIp);
 
-  // 加入游戏按钮
-  var joinBtn = document.getElementById('joinBtn');
-  if (joinBtn) {
-    joinBtn.addEventListener('click', function () {
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(ip).then(function () {
-          alert('服务器地址已复制: ' + ip + '\n\n打开 Minecraft -> 多人游戏 -> 添加服务器，粘贴即可加入！');
-        });
-      } else {
-        alert('服务器地址: ' + ip + '\n\n请手动复制加入游戏。');
-      }
+  document.getElementById('joinBtn').addEventListener('click', function (e) {
+    doCopy(ip, function () {
+      showFloatingToast(e.currentTarget, '✓ 地址已复制，打开游戏加入吧！');
     });
-  }
-
-  // 复制 IP 按钮（hero 区）
-  var copyIpBtn = document.getElementById('copyIpBtn');
-  if (copyIpBtn) {
-    copyIpBtn.addEventListener('click', copyIp);
-  }
+  });
 
   // 模拟 ping 和在线人数
   var pingEl = document.getElementById('pingDisplay');
