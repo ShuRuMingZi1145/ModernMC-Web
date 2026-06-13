@@ -71,7 +71,9 @@ document.addEventListener('DOMContentLoaded', function () {
   var lastGood = null;
 
   function fetchStatus() {
-    fetch('https://api.mcsrvstat.us/2/modernmc.srmz.cn')
+    fetch('https://api.mcsrvstat.us/2/modernmc.srmz.cn?_=' + Date.now(), {
+      headers: { 'User-Agent': 'ModernMC-Website/1.0' }
+    })
       .then(function (res) { return res.json(); })
       .then(function (data) {
         if (data.online) {
