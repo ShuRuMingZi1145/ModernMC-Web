@@ -3,14 +3,252 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ModernMC</title>
+  <title>ModernMC - 不只是服务器</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <div id="app">
-    <h1>ModernMC</h1>
-    <p>欢迎来到 ModernMC 网站</p>
-  </div>
+  <div class="bg"></div>
+
+  <header class="header">
+    <div class="container">
+      <nav class="nav">
+        <div class="logo">
+          <svg class="logo-icon" viewBox="0 0 32 32" width="32" height="32">
+            <rect x="2" y="2" width="28" height="28" rx="6" fill="#f5a623"/>
+            <text x="16" y="22" text-anchor="middle" font-size="18" font-weight="bold" fill="#1a1a2e">M</text>
+          </svg>
+          <span class="logo-text">ModernMC</span>
+        </div>
+        <ul class="nav-links">
+          <li><a href="#home">首页</a></li>
+          <li><a href="#features">特色</a></li>
+          <li><a href="#join">加入</a></li>
+          <li><a href="#gallery">画廊</a></li>
+        </ul>
+        <a href="https://discord.gg/modernmc" class="discord-btn" target="_blank">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.947 2.418-2.157 2.418z"/></svg>
+          Discord
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-badge">1.21+ 原生支持</div>
+          <h1 class="hero-title">
+            一个不一样的<br>
+            <span>Minecraft 世界</span>
+          </h1>
+          <p class="hero-desc">
+            ModernMC 不是那种千篇一律的服务器。我们注重社区、创造力和真正的游戏体验。
+            生存、建筑、红石、小游戏——你想要的，这里都有。
+          </p>
+          <div class="hero-actions">
+            <button class="btn btn-primary" id="joinBtn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M13 12H3"/></svg>
+              加入游戏
+            </button>
+            <button class="btn btn-outline" id="copyIpBtn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              复制 IP
+            </button>
+          </div>
+        </div>
+        <div class="hero-stats">
+          <div class="stat">
+            <span class="stat-num">128</span>
+            <span class="stat-label">同时在线</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">3 年</span>
+            <span class="stat-label">运营历史</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">99%</span>
+            <span class="stat-label">在线率</span>
+          </div>
+          <div class="stat">
+            <span class="stat-num">42</span>
+            <span class="stat-label">原创插件</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="features" id="features">
+      <div class="container">
+        <h2 class="section-title">为什么选我们</h2>
+        <p class="section-sub">我们不搞那些花里胡哨的，只管把游戏体验做好。</p>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-card-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <h3>纯净反作弊</h3>
+            <p>自研反作弊系统，不误判、不打扰。公平环境是我们底线。</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-card-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </div>
+            <h3>稳定在线</h3>
+            <p>全天候运维监控，DDoS 防护拉满。你随时上线，我们随时在。</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-card-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="5"/><path d="M3 21v-2a7 7 0 0 1 7-7h4a7 7 0 0 1 7 7v2"/></svg>
+            </div>
+            <h3>活跃社区</h3>
+            <p>不冷清，不官僚。玩家自治，管理员就位，有事直接聊。</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-card-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+            </div>
+            <h3>原创内容</h3>
+            <p>自定义合成、技能系统、特色地形……不拿网上的模组拼凑。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="join" id="join">
+      <div class="container">
+        <div class="join-panel">
+          <div class="join-info">
+            <h2>加入 ModernMC</h2>
+            <p class="join-desc">支持 Java 版与基岩版，版本覆盖 1.21+，无需白名单，注册即玩。</p>
+            <div class="ip-box">
+              <code class="ip-address" id="serverIp">play.modernmc.cn</code>
+              <button class="copy-btn" id="copyBtn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                复制地址
+              </button>
+              <span class="copy-toast" id="copyToast">✓ 已复制!</span>
+            </div>
+            <div class="version-info">
+              <span><span class="dot dot-green"></span> Java 版 1.21 - 1.21.4</span>
+              <span><span class="dot dot-green"></span> 基岩版 1.21+</span>
+            </div>
+          </div>
+          <div class="join-status">
+            <div class="status-item">
+              <span class="status-dot"></span>
+              <div>
+                <span class="status-label">服务器状态</span>
+                <span class="status-value">在线</span>
+              </div>
+            </div>
+            <div class="status-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <div>
+                <span class="status-label">延迟</span>
+                <span class="status-value" id="pingDisplay">-- ms</span>
+              </div>
+            </div>
+            <div class="status-item">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              <div>
+                <span class="status-label">在线玩家</span>
+                <span class="status-value" id="playerCount">--</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="gallery" id="gallery">
+      <div class="container">
+        <h2 class="section-title">玩家作品</h2>
+        <p class="section-sub">这些都是玩家在服务器里造出来的，不是我们放的演示图。</p>
+        <div class="gallery-grid">
+          <div class="gallery-card">
+            <div class="gallery-img">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div class="gallery-info">
+              <h4>中世纪城堡</h4>
+              <p>玩家 _Knight_ 耗时三个月建造</p>
+            </div>
+          </div>
+          <div class="gallery-card">
+            <div class="gallery-img">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </div>
+            <div class="gallery-info">
+              <h4>环球车站</h4>
+              <p>服务器轨道交通枢纽，八人联合建造</p>
+            </div>
+          </div>
+          <div class="gallery-card">
+            <div class="gallery-img">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            </div>
+            <div class="gallery-info">
+              <h4>天空之城复刻</h4>
+              <p>致敬宫崎骏，全手工搭建</p>
+            </div>
+          </div>
+          <div class="gallery-card">
+            <div class="gallery-img">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            </div>
+            <div class="gallery-info">
+              <h4>像素艺术展</h4>
+              <p>每周举办的主题建造活动作品</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <div class="logo">
+            <svg class="logo-icon" viewBox="0 0 32 32" width="28" height="28">
+              <rect x="2" y="2" width="28" height="28" rx="6" fill="#f5a623"/>
+              <text x="16" y="22" text-anchor="middle" font-size="18" font-weight="bold" fill="#1a1a2e">M</text>
+            </svg>
+            <span class="logo-text">ModernMC</span>
+          </div>
+          <p class="footer-desc">一个认真做 Minecraft 服务器的团队。</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-col">
+            <h4>链接</h4>
+            <a href="#">玩家守则</a>
+            <a href="#">Wiki</a>
+            <a href="#">地图下载</a>
+          </div>
+          <div class="footer-col">
+            <h4>社区</h4>
+            <a href="#">Discord</a>
+            <a href="#">B站</a>
+            <a href="#">QQ群</a>
+          </div>
+        </div>
+        <div class="footer-social">
+          <a href="#" title="Discord">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.947 2.418-2.157 2.418z"/></svg>
+          </a>
+          <a href="#" title="Bilibili">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l3.333-3.333c.267-.25.573-.374.92-.374.347 0 .653.125.92.374.249.248.373.55.373.907 0 .356-.124.658-.373.906l-1.147 1.12-.04.213h-.08zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773H5.333zm6.667 2.666c.373 0 .653.124.84.373.187.249.28.542.28.881v2.666c0 .356-.093.653-.28.894-.187.24-.467.36-.84.36-.373 0-.653-.12-.84-.36a1.402 1.402 0 0 1-.28-.894v-2.666c0-.339.093-.632.28-.881.187-.249.467-.373.84-.373zm-3.333 0c.373 0 .653.124.84.373.187.249.28.542.28.881v2.666c0 .356-.093.653-.28.894-.187.24-.467.36-.84.36-.373 0-.653-.12-.84-.36a1.402 1.402 0 0 1-.28-.894v-2.666c0-.339.093-.632.28-.881.187-.249.467-.373.84-.373zm6.666 0c.373 0 .653.124.84.373.187.249.28.542.28.881v2.666c0 .356-.093.653-.28.894-.187.24-.467.36-.84.36-.373 0-.653-.12-.84-.36a1.402 1.402 0 0 1-.28-.894v-2.666c0-.339.093-.632.28-.881.187-.249.467-.373.84-.373z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 ModernMC. Minecraft 是 Mojang AB 的商标。</p>
+      </div>
+    </div>
+  </footer>
+
   <script src="js/main.js"></script>
 </body>
 </html>
