@@ -68,7 +68,26 @@ document.addEventListener('DOMContentLoaded', function () {
   var statusValue = document.querySelector('.status-item:first-child .status-value');
   var pingEl = document.getElementById('pingDisplay');
   var playerEl = document.getElementById('playerCount');
+  var peakEl = document.getElementById('peakPlayers');
   var lastGood = null;
+
+  var peakKey = 'modernmc_peak_players';
+
+  function loadPeak() {
+    try { return parseInt(localStorage.getItem(peakKey), 10) || 0; } catch (e) { return 0; }
+  }
+
+  function savePeak(val) {
+    try { localStorage.setItem(peakKey, val); } catch (e) {}
+  }
+
+  function updatePeakDisplay(val) {
+    if (peakEl) {
+      peakEl.textContent = val > 0 ? val : '--';
+    }
+  }
+
+  updatePeakDisplay(loadPeak());
 
   function fetchStatus() {
     fetch('https://api.mcsrvstat.us/2/modernmc.srmz.cn?_=' + Date.now(), {
@@ -84,8 +103,13 @@ document.addEventListener('DOMContentLoaded', function () {
           }
           if (statusValue) statusValue.textContent = '在线';
           if (pingEl) pingEl.textContent = (data.debug && data.debug.ping ? data.debug.ping : '--') + ' ms';
-          if (playerEl && data.players) {
-            playerEl.textContent = data.players.online + ' / ' + data.players.max + ' 人';
+          if (data.players) {
+            if (playerEl) playerEl.textContent = data.players.online + ' / ' + data.players.max + ' 人';
+            var current = loadPeak();
+            if (data.players.online > current) {
+              savePeak(data.players.online);
+              updatePeakDisplay(data.players.online);
+            }
           }
         } else {
           if (statusDot) {
