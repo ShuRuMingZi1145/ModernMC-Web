@@ -101,21 +101,21 @@ ul {
   color: #eeeef5;
 }
 
-.discord-btn {
+.qq-btn {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  background: #5865f2;
+  gap: 6px;
+  background: #1ebcd8;
   color: white !important;
-  padding: 8px 18px;
+  padding: 8px 16px;
   border-radius: 8px;
   font-size: 0.875rem;
   font-weight: 600;
   transition: background 0.15s;
 }
 
-.discord-btn:hover {
-  background: #4752c4;
+.qq-btn:hover {
+  background: #17a2ba;
 }
 
 /* Hero */
