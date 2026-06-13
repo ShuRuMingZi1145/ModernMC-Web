@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // 实时服务器状态（每 3 分钟查询一次）
+  // 实时服务器状态（API 缓存 5 分钟，同步间隔）
   var statusDot = document.querySelector('.status-dot');
   var statusValue = document.querySelector('.status-item:first-child .status-value');
   var pingEl = document.getElementById('pingDisplay');
@@ -106,5 +106,5 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   fetchStatus();
-  setInterval(fetchStatus, 180000);
+  setInterval(fetchStatus, 300000);
 });
