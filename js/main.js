@@ -67,15 +67,28 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // 状态 & 峰值
+  // 状态 & 峰值 & 在线率
   var statusDot = document.querySelector('.status-dot');
   var statusValue = document.querySelector('.status-item:first-child .status-value');
   var pingEl = document.getElementById('pingDisplay');
   var playerEl = document.getElementById('playerCount');
   var peakEl = document.getElementById('peakPlayers');
+  var uptimeDaysEl = document.getElementById('uptimeDays');
+  var uptimeRateEl = document.getElementById('uptimeRate');
   var lastGood = null;
 
   var peakKey = 'modernmc_peak_players';
+  var uptimeKey = 'modernmc_uptime';
+
+  // 运营历史：从 2026-07-01 算起
+  var startDate = new Date(2026, 6, 1);
+
+  function calcDays() {
+    var diff = Date.now() - startDate.getTime();
+    return Math.floor(diff / 86400000);
+  }
+
+  if (uptimeDaysEl) uptimeDaysEl.textContent = calcDays() + ' 天';
 
   function loadPeak() {
     try { return parseInt(localStorage.getItem(peakKey), 10) || 0; } catch (e) { return 0; }
@@ -91,6 +104,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
   updatePeakDisplay(loadPeak());
 
+  // 在线率追踪
+  function loadUptime() {
+    try { return JSON.parse(localStorage.getItem(uptimeKey)) || { total: 0, online: 0 }; } catch (e) { return { total: 0, online: 0 }; }
+  }
+
+  function saveUptime(u) {
+    try { localStorage.setItem(uptimeKey, JSON.stringify(u)); } catch (e) {}
+  }
+
+  function updateUptimeDisplay(u) {
+    if (uptimeRateEl) {
+      if (u.total > 0) {
+        var pct = (u.online / u.total * 100).toFixed(2);
+        uptimeRateEl.textContent = pct + '%';
+      } else {
+        uptimeRateEl.textContent = '--';
+      }
+    }
+  }
+
+  var uptime = loadUptime();
+  updateUptimeDisplay(uptime);
+
   function switchIp(newIp, showBadge) {
     activeIp = newIp;
     if (ipEl) {
@@ -102,9 +138,15 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function queryServer(addr) {
+    var start = performance.now();
     return fetch('https://api.mcsrvstat.us/2/' + encodeURIComponent(addr) + '?_=' + Date.now(), {
       headers: { 'User-Agent': 'ModernMC-Website/1.0' }
-    }).then(function (r) { return r.json(); });
+    }).then(function (r) {
+      return r.json().then(function (data) {
+        data._latency = Math.round(performance.now() - start);
+        return data;
+      });
+    });
   }
 
   function handleOnline(data) {
@@ -114,7 +156,13 @@ document.addEventListener('DOMContentLoaded', function () {
       statusDot.style.boxShadow = '0 0 8px rgba(76, 175, 80, 0.5)';
     }
     if (statusValue) statusValue.textContent = '在线';
-    if (pingEl) pingEl.textContent = '-- ms';
+    if (pingEl) pingEl.textContent = (data._latency || '--') + ' ms';
+
+    uptime.total++;
+    uptime.online++;
+    saveUptime(uptime);
+    updateUptimeDisplay(uptime);
+
     if (data.players) {
       if (playerEl) playerEl.textContent = data.players.online + ' / ' + data.players.max + ' 人';
       var current = loadPeak();
@@ -133,6 +181,10 @@ document.addEventListener('DOMContentLoaded', function () {
     if (statusValue) statusValue.textContent = '离线';
     if (pingEl) pingEl.textContent = '-- ms';
     if (playerEl) playerEl.textContent = '--';
+
+    uptime.total++;
+    saveUptime(uptime);
+    updateUptimeDisplay(uptime);
   }
 
   function fetchStatus() {
