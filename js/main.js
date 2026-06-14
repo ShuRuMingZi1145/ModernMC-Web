@@ -61,12 +61,6 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('copyBtn').addEventListener('click', copyIp);
   document.getElementById('copyIpBtn').addEventListener('click', copyIp);
 
-  document.getElementById('joinBtn').addEventListener('click', function (e) {
-    doCopy(getIp(), function () {
-      showFloatingToast(e.currentTarget, '✓ 地址已复制，打开游戏加入吧！');
-    });
-  });
-
   // 状态 & 峰值 & 在线率
   var statusDot = document.querySelector('.status-dot');
   var statusValue = document.querySelector('.status-item:first-child .status-value');
@@ -79,6 +73,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   var peakKey = 'modernmc_peak_players';
   var uptimeKey = 'modernmc_uptime';
+  var latencyKey = 'modernmc_latency';
+  var avgLatencyEl = document.getElementById('avgLatency');
 
   // 运营历史：从 2026-07-01 算起
   var startDate = new Date(2026, 6, 1);
@@ -127,6 +123,28 @@ document.addEventListener('DOMContentLoaded', function () {
   var uptime = loadUptime();
   updateUptimeDisplay(uptime);
 
+  // 平均延迟追踪
+  function loadLatency() {
+    try { return JSON.parse(localStorage.getItem(latencyKey)) || { sum: 0, count: 0 }; } catch (e) { return { sum: 0, count: 0 }; }
+  }
+
+  function saveLatency(l) {
+    try { localStorage.setItem(latencyKey, JSON.stringify(l)); } catch (e) {}
+  }
+
+  function updateLatencyDisplay(l) {
+    if (avgLatencyEl) {
+      if (l.count > 0) {
+        avgLatencyEl.textContent = Math.round(l.sum / l.count) + ' ms';
+      } else {
+        avgLatencyEl.textContent = '--';
+      }
+    }
+  }
+
+  var latencyData = loadLatency();
+  updateLatencyDisplay(latencyData);
+
   function switchIp(newIp, showBadge) {
     activeIp = newIp;
     if (ipEl) {
@@ -157,6 +175,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     if (statusValue) statusValue.textContent = '在线';
     if (pingEl) pingEl.textContent = (data._latency || '--') + ' ms';
+
+    if (data._latency) {
+      latencyData.sum += data._latency;
+      latencyData.count++;
+      saveLatency(latencyData);
+      updateLatencyDisplay(latencyData);
+    }
 
     uptime.total++;
     uptime.online++;

@@ -187,6 +187,16 @@ ul {
   transform: translateY(-1px);
 }
 
+.btn-copy {
+  background: #f5a623;
+  color: #12121a;
+}
+
+.btn-copy:hover {
+  background: #e89a1a;
+  transform: translateY(-1px);
+}
+
 .btn-outline {
   border: 1.5px solid #3a3a52;
   color: #c8c8d8;
