@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
       statusDot.style.boxShadow = '0 0 8px rgba(76, 175, 80, 0.5)';
     }
     if (statusValue) statusValue.textContent = '在线';
-    if (pingEl) pingEl.textContent = (data.debug && data.debug.ping ? data.debug.ping : '--') + ' ms';
+    if (pingEl) pingEl.textContent = '-- ms';
     if (data.players) {
       if (playerEl) playerEl.textContent = data.players.online + ' / ' + data.players.max + ' 人';
       var current = loadPeak();
