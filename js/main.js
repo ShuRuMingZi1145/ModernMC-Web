@@ -1,10 +1,14 @@
 document.addEventListener('DOMContentLoaded', function () {
   var ipEl = document.getElementById('serverIp');
-  var ip = ipEl.textContent;
+  var fbIpEl = document.getElementById('fallbackIp');
+  var ipBadge = document.getElementById('ipBadge');
+  var activeIp = ipEl.textContent;
+
+  function getIp() { return activeIp; }
 
   function copyIp(e) {
     var btn = e.currentTarget;
-    doCopy(ip, function () {
+    doCopy(getIp(), function () {
       showFloatingToast(btn, '✓ 已复制服务器地址');
     });
   }
@@ -58,12 +62,12 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('copyIpBtn').addEventListener('click', copyIp);
 
   document.getElementById('joinBtn').addEventListener('click', function (e) {
-    doCopy(ip, function () {
+    doCopy(getIp(), function () {
       showFloatingToast(e.currentTarget, '✓ 地址已复制，打开游戏加入吧！');
     });
   });
 
-  // 实时服务器状态（API 缓存 5 分钟，同步间隔）
+  // 状态 & 峰值
   var statusDot = document.querySelector('.status-dot');
   var statusValue = document.querySelector('.status-item:first-child .status-value');
   var pingEl = document.getElementById('pingDisplay');
@@ -82,52 +86,91 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function updatePeakDisplay(val) {
-    if (peakEl) {
-      peakEl.textContent = val > 0 ? val : '--';
-    }
+    if (peakEl) peakEl.textContent = val > 0 ? val : '--';
   }
 
   updatePeakDisplay(loadPeak());
 
-  function fetchStatus() {
-    fetch('https://api.mcsrvstat.us/2/modernmc.srmz.cn?_=' + Date.now(), {
+  function switchIp(newIp, showBadge) {
+    activeIp = newIp;
+    if (ipEl) {
+      ipEl.textContent = newIp;
+      ipEl.style.display = '';
+    }
+    if (fbIpEl) fbIpEl.style.display = 'none';
+    if (ipBadge) ipBadge.style.display = showBadge ? '' : 'none';
+  }
+
+  function queryServer(addr) {
+    return fetch('https://api.mcsrvstat.us/2/' + encodeURIComponent(addr) + '?_=' + Date.now(), {
       headers: { 'User-Agent': 'ModernMC-Website/1.0' }
-    })
-      .then(function (res) { return res.json(); })
+    }).then(function (r) { return r.json(); });
+  }
+
+  function handleOnline(data) {
+    lastGood = data;
+    if (statusDot) {
+      statusDot.style.background = '#4caf50';
+      statusDot.style.boxShadow = '0 0 8px rgba(76, 175, 80, 0.5)';
+    }
+    if (statusValue) statusValue.textContent = '在线';
+    if (pingEl) pingEl.textContent = (data.debug && data.debug.ping ? data.debug.ping : '--') + ' ms';
+    if (data.players) {
+      if (playerEl) playerEl.textContent = data.players.online + ' / ' + data.players.max + ' 人';
+      var current = loadPeak();
+      if (data.players.online > current) {
+        savePeak(data.players.online);
+        updatePeakDisplay(data.players.online);
+      }
+    }
+  }
+
+  function handleOffline() {
+    if (statusDot) {
+      statusDot.style.background = '#e53935';
+      statusDot.style.boxShadow = '0 0 8px rgba(229, 57, 53, 0.5)';
+    }
+    if (statusValue) statusValue.textContent = '离线';
+    if (pingEl) pingEl.textContent = '-- ms';
+    if (playerEl) playerEl.textContent = '--';
+  }
+
+  function fetchStatus() {
+    queryServer('modernmc.srmz.cn')
       .then(function (data) {
         if (data.online) {
-          lastGood = data;
-          if (statusDot) {
-            statusDot.style.background = '#4caf50';
-            statusDot.style.boxShadow = '0 0 8px rgba(76, 175, 80, 0.5)';
-          }
-          if (statusValue) statusValue.textContent = '在线';
-          if (pingEl) pingEl.textContent = (data.debug && data.debug.ping ? data.debug.ping : '--') + ' ms';
-          if (data.players) {
-            if (playerEl) playerEl.textContent = data.players.online + ' / ' + data.players.max + ' 人';
-            var current = loadPeak();
-            if (data.players.online > current) {
-              savePeak(data.players.online);
-              updatePeakDisplay(data.players.online);
-            }
-          }
+          handleOnline(data);
+          switchIp('modernmc.srmz.cn', false);
         } else {
-          if (statusDot) {
-            statusDot.style.background = '#e53935';
-            statusDot.style.boxShadow = '0 0 8px rgba(229, 57, 53, 0.5)';
-          }
-          if (statusValue) statusValue.textContent = '离线';
-          if (pingEl) pingEl.textContent = '-- ms';
-          if (playerEl) playerEl.textContent = '--';
+          return queryServer('47.92.28.8:56665')
+            .then(function (fb) {
+              if (fb.online) {
+                handleOnline(fb);
+                switchIp('47.92.28.8:56665', true);
+              } else {
+                handleOffline();
+              }
+            });
         }
       })
       .catch(function () {
-        if (lastGood) return;
-        if (statusDot) {
-          statusDot.style.background = '#ff9800';
-          statusDot.style.boxShadow = '0 0 8px rgba(255, 152, 0, 0.5)';
-        }
-        if (statusValue) statusValue.textContent = '查询超时';
+        queryServer('47.92.28.8:56665')
+          .then(function (fb) {
+            if (fb.online) {
+              handleOnline(fb);
+              switchIp('47.92.28.8:56665', true);
+            } else {
+              handleOffline();
+            }
+          })
+          .catch(function () {
+            if (lastGood) return;
+            if (statusDot) {
+              statusDot.style.background = '#ff9800';
+              statusDot.style.boxShadow = '0 0 8px rgba(255, 152, 0, 0.5)';
+            }
+            if (statusValue) statusValue.textContent = '查询超时';
+          });
       });
   }
 

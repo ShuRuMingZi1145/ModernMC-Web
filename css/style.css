@@ -357,6 +357,15 @@ ul {
   background: #3a3a52;
 }
 
+.ip-badge {
+  font-size: 0.75rem;
+  background: #f5a623;
+  color: #12121a;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
 .copy-toast {
   font-size: 0.85rem;
   color: #4caf50;
