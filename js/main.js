@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var avgLatencyEl = document.getElementById('avgLatency');
 
   // 运营历史：从 2026-07-01 算起
-  var startDate = new Date(2026, 6, 1);
+  var startDate = new Date(2026, 1, 27);
 
   function calcDays() {
     var diff = Date.now() - startDate.getTime();
@@ -231,7 +231,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function fetchStatus() {
-    tryChain(['modernmc.srmz.cn', '47.92.28.8:56665', '60.18.74.126:56665']);
+    tryChain(['modernmc.srmz.cn', '60.18.74.126:56665', '47.92.28.8:56665']);
   }
 
   fetchStatus();
