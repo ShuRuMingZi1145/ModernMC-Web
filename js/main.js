@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
   var ipEl = document.getElementById('serverIp');
   var fbIpEl = document.getElementById('fallbackIp');
+  var fbIp2El = document.getElementById('fallbackIp2');
   var ipBadge = document.getElementById('ipBadge');
   var activeIp = ipEl.textContent;
 
@@ -152,6 +153,7 @@ document.addEventListener('DOMContentLoaded', function () {
       ipEl.style.display = '';
     }
     if (fbIpEl) fbIpEl.style.display = 'none';
+    if (fbIp2El) fbIp2El.style.display = 'none';
     if (ipBadge) ipBadge.style.display = showBadge ? '' : 'none';
   }
 
@@ -212,43 +214,24 @@ document.addEventListener('DOMContentLoaded', function () {
     updateUptimeDisplay(uptime);
   }
 
+  function tryChain(ips, idx) {
+    idx = idx || 0;
+    if (idx >= ips.length) { handleOffline(); return; }
+    var addr = ips[idx];
+    queryServer(addr).then(function (data) {
+      if (data.online) {
+        handleOnline(data);
+        switchIp(addr, idx > 0);
+      } else {
+        tryChain(ips, idx + 1);
+      }
+    }).catch(function () {
+      tryChain(ips, idx + 1);
+    });
+  }
+
   function fetchStatus() {
-    queryServer('modernmc.srmz.cn')
-      .then(function (data) {
-        if (data.online) {
-          handleOnline(data);
-          switchIp('modernmc.srmz.cn', false);
-        } else {
-          return queryServer('47.92.28.8:56665')
-            .then(function (fb) {
-              if (fb.online) {
-                handleOnline(fb);
-                switchIp('47.92.28.8:56665', true);
-              } else {
-                handleOffline();
-              }
-            });
-        }
-      })
-      .catch(function () {
-        queryServer('47.92.28.8:56665')
-          .then(function (fb) {
-            if (fb.online) {
-              handleOnline(fb);
-              switchIp('47.92.28.8:56665', true);
-            } else {
-              handleOffline();
-            }
-          })
-          .catch(function () {
-            if (lastGood) return;
-            if (statusDot) {
-              statusDot.style.background = '#ff9800';
-              statusDot.style.boxShadow = '0 0 8px rgba(255, 152, 0, 0.5)';
-            }
-            if (statusValue) statusValue.textContent = '查询超时';
-          });
-      });
+    tryChain(['modernmc.srmz.cn', '47.92.28.8:56665', '60.18.74.126:56665']);
   }
 
   fetchStatus();
