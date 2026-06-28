@@ -8,8 +8,17 @@ document.addEventListener('DOMContentLoaded', function () {
   function getIp() { return activeIp; }
 
   function copyIp(e) {
+    var btn = e.currentTarget;
     doCopy(getIp(), function () {
-      showTopToast('服务器地址已复制');
+      var svg = btn.querySelector('svg');
+      btn.innerHTML = '';
+      if (svg) btn.appendChild(svg);
+      btn.appendChild(document.createTextNode(' 已复制'));
+      setTimeout(function () {
+        btn.innerHTML = '';
+        if (svg) btn.appendChild(svg);
+        btn.appendChild(document.createTextNode(' 复制地址'));
+      }, 5000);
     });
   }
 
@@ -31,20 +40,6 @@ document.addEventListener('DOMContentLoaded', function () {
     document.execCommand('copy');
     document.body.removeChild(ta);
     cb();
-  }
-
-  function showTopToast(msg) {
-    var existing = document.querySelector('.top-toast');
-    if (existing) existing.remove();
-    var toast = document.createElement('div');
-    toast.className = 'top-toast';
-    toast.textContent = msg;
-    document.body.appendChild(toast);
-    requestAnimationFrame(function () { toast.classList.add('show'); });
-    setTimeout(function () {
-      toast.classList.remove('show');
-      setTimeout(function () { toast.remove(); }, 300);
-    }, 2000);
   }
 
   document.getElementById('copyBtn').addEventListener('click', copyIp);
