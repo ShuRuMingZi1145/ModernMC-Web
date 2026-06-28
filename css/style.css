@@ -376,15 +376,29 @@ ul {
   font-weight: 600;
 }
 
-.copy-toast {
-  font-size: 0.85rem;
-  color: #4caf50;
+/* 顶部提示条 */
+.top-toast {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  background: #2a2a3e;
+  color: #d4d4dc;
+  padding: 12px 32px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  pointer-events: none;
   opacity: 0;
-  transition: opacity 0.2s;
+  transition: opacity 0.3s, transform 0.3s;
+  z-index: 9999;
+  border: 1px solid #3a3a52;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
-.copy-toast.show {
+.top-toast.show {
   opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
 
 .version-info {
@@ -590,24 +604,4 @@ ul {
   color: #5a5a72;
 }
 
-/* 浮动复制提示 */
-.float-toast {
-  position: fixed;
-  transform: translate(-50%, -100%);
-  background: #2a2a3e;
-  color: #d4d4dc;
-  padding: 8px 18px;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  font-weight: 500;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.25s, transform 0.25s;
-  z-index: 999;
-  border: 1px solid #3a3a52;
-}
 
-.float-toast.show {
-  opacity: 1;
-  transform: translate(-50%, -120%);
-}

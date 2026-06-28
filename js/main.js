@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function copyIp(e) {
     doCopy(getIp(), function () {
-      showFloatingToast(e.currentTarget, '✓ 已复制服务器地址');
+      showTopToast('服务器地址已复制');
     });
   }
 
@@ -33,21 +33,18 @@ document.addEventListener('DOMContentLoaded', function () {
     cb();
   }
 
-  function showFloatingToast(anchor, msg) {
-    var existing = document.querySelector('.float-toast');
+  function showTopToast(msg) {
+    var existing = document.querySelector('.top-toast');
     if (existing) existing.remove();
     var toast = document.createElement('div');
-    toast.className = 'float-toast';
+    toast.className = 'top-toast';
     toast.textContent = msg;
-    var rect = anchor.getBoundingClientRect();
-    toast.style.left = rect.left + rect.width / 2 + 'px';
-    toast.style.top = rect.top - 12 + 'px';
     document.body.appendChild(toast);
     requestAnimationFrame(function () { toast.classList.add('show'); });
     setTimeout(function () {
       toast.classList.remove('show');
       setTimeout(function () { toast.remove(); }, 300);
-    }, 1600);
+    }, 2000);
   }
 
   document.getElementById('copyBtn').addEventListener('click', copyIp);
